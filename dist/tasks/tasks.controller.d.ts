@@ -6,6 +6,9 @@ import { TasksService } from './tasks.service';
 export declare class TasksController {
     private taskService;
     constructor(taskService: TasksService);
+    writeToFileSync(body: {
+        message: string;
+    }): Promise<string>;
     getAllTasks(filterDto: GetTaskFilterDto): Task[];
     createTask(createTaskDto: CreateTaskDto): Task;
     getTaskById(id: string): Task;

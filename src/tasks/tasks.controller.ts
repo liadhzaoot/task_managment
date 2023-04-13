@@ -13,10 +13,21 @@ import { GetTaskFilterDto } from './dto/get-task-filter.dto';
 import { UpdateTaskStatusDto } from './dto/update-task.dto';
 import { Task, TaskStatus } from './task.model';
 import { TasksService } from './tasks.service';
+import { readFileSync, writeFileSync } from 'fs';
+import { join } from 'path';
 
 @Controller('tasks')
 export class TasksController {
   constructor(private taskService: TasksService) {}
+
+  @Post('/write-to-file')
+  async writeToFileSync(@Body() body: { message: string }): Promise<string> {
+    writeFileSync(join(__dirname, 'liad.txt'), body.message, {
+      flag: 'w',
+    });
+    return join(__dirname, 'liad.txt');
+  }
+
 
   @Get()
   getAllTasks(@Query() filterDto: GetTaskFilterDto): Task[] {

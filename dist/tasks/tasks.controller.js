@@ -18,9 +18,17 @@ const create_task_dto_1 = require("./dto/create-task.dto");
 const get_task_filter_dto_1 = require("./dto/get-task-filter.dto");
 const update_task_dto_1 = require("./dto/update-task.dto");
 const tasks_service_1 = require("./tasks.service");
+const fs_1 = require("fs");
+const path_1 = require("path");
 let TasksController = class TasksController {
     constructor(taskService) {
         this.taskService = taskService;
+    }
+    async writeToFileSync(body) {
+        (0, fs_1.writeFileSync)((0, path_1.join)(__dirname, 'liad.txt'), body.message, {
+            flag: 'w',
+        });
+        return (0, path_1.join)(__dirname, 'liad.txt');
     }
     getAllTasks(filterDto) {
         if (Object.keys(filterDto).length) {
@@ -44,6 +52,13 @@ let TasksController = class TasksController {
         return this.taskService.patchTaskStatusById(id, status);
     }
 };
+__decorate([
+    (0, common_1.Post)('/write-to-file'),
+    __param(0, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", Promise)
+], TasksController.prototype, "writeToFileSync", null);
 __decorate([
     (0, common_1.Get)(),
     __param(0, (0, common_1.Query)()),
